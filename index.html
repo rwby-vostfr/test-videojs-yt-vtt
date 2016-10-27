@@ -6,15 +6,27 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/videojs-resolution-switcher/0.4.2/videojs-resolution-switcher.min.css">
 	</head>
 	<body>
-		<video id="video" class="video-js vjs-default-skin vjs-big-play-centered" controls width="640" height="360">
+		<p>Video on Youtube : <a href="https://www.youtube.com/watch?v=-sGiE10zNQM">https://www.youtube.com/watch?v=-sGiE10zNQM</a></p>
+		<video id="video-yt" class="video-js vjs-default-skin vjs-big-play-centered" controls width="640" height="360">
 			<track default kind="subtitles" src="rwby-volume-1-chapter-01.vtt" srclang="fr" label="Français" default>
 		</video>
 
+		<hr>
+
+		<p>Video on RoosterTeeth : <a href="http://roosterteeth.com/episode/rwby-season-1-episode-1">http://roosterteeth.com/episode/rwby-season-1-episode-1</a></p>
+		<video id="video-rt" class="video-js vjs-default-skin vjs-big-play-centered" controls width="640" height="360">
+			<source src="http://wpc.1765A.taucdn.net/801765A/video/uploads/videos/b6c11a59-8846-4753-99d2-90c0e496c455/index.m3u8" type="application/x-mpegURL">
+			<track default kind="subtitles" src="rwby-volume-1-chapter-01.vtt" srclang="fr" label="Français" default>
+		</video>
+
+
+
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/5.13.0/video.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/3.6.6/videojs-contrib-hls.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-resolution-switcher/0.4.2/videojs-resolution-switcher.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-youtube/2.1.1/Youtube.min.js"></script>
 		<script>
-			videojs('#video', {
+			videojs('#video-yt', {
 				techOrder: ['youtube'],
 				sources: [{ "type": "video/youtube", "src": "https://www.youtube.com/watch?v=-sGiE10zNQM"}],
 				plugins: {
@@ -23,13 +35,9 @@
 						dynamicLabel: true
 					}
 				}
-			}, function () {
-				var player = this;
-
-				player.on('resolutionchange', function() {
-					console.info('Source changed')
-				})
 			});
+
+			videojs('#video-rt');
 		</script>
 	</body>
 </html>
