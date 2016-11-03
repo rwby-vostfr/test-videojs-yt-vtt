@@ -35,6 +35,9 @@
 						dynamicLabel: true
 					}
 				}
+			}).one('playing', function () {
+				this.tech_.ytPlayer.unloadModule('captions');
+				this.tech_.ytPlayer.unloadModule('cc');
 			});
 
 			videojs('#video-rt', {
