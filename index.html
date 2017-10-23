@@ -2,63 +2,72 @@
 	<head>
 		<meta chartset="utf-8">
 		<title>custom subtitles</title>
-		<link rel="stylesheet" href="bower_components/video-js/dist/video-js.min.css">
-		<link rel="stylesheet" href="bower_components/videojs-resolution-switcher/lib/videojs-resolution-switcher.css">
-		<link rel="stylesheet" href="bower_components/libjass/libjass.css">
-		<link rel="stylesheet" href="bower_components/videojs-ass/src/videojs.ass.css">
+
+		<link rel="stylesheet" href="https://unpkg.com/libjass@0.11.0/libjass.css">
+		<script src="https://unpkg.com/libjass@0.11.0/libjass.js"></script>
+
+		<link rel="stylesheet" href="https://unpkg.com/video.js@6.3.3/dist/video-js.min.css">
+		<script src="https://unpkg.com/video.js@6.3.3/dist/video.min.js"></script>
+
+		<link rel="stylesheet" href="https://unpkg.com/videojs-ass-es6@0.0.4/src/videojs.ass.css">
+		<script src="https://unpkg.com/videojs-ass-es6@0.0.4/src/videojs.ass.js"></script>
+
+		<link rel="stylesheet" href="https://unpkg.com/videojs-resolution-switcher@0.4.2/lib/videojs-resolution-switcher.css">
+		<script src="https://unpkg.com/videojs-resolution-switcher@0.4.2/lib/videojs-resolution-switcher.js"></script>
+
+		<script src="https://unpkg.com/videojs-youtube@2.4.1/dist/Youtube.js"></script>
 	</head>
 	<body>
-		Examples using first RWBY episode on youtube (<a href="https://www.youtube.com/watch?v=-sGiE10zNQM">https://www.youtube.com/watch?v=-sGiE10zNQM</a>) and subtitles from RWBY VOSTFR team.
+		Examples using first RWBY episode on youtube (<a href="https://www.youtube.com/watch?v=thTOWKiNnx4">https://www.youtube.com/watch?v=thTOWKiNnx4</a>) and subtitles from RWBY VOSTFR team.
 
-		<p>video using .vtt subtitles (converted from original .ass)</p>
+		<h2>video using .vtt subtitles (native, file converted from original .ass)</h2>
 		<video id="video-with-vtt" class="video-js vjs-default-skin vjs-big-play-centered" controls width="640" height="360">
-			<track default kind="subtitles" src="rwby-volume-1-chapter-01.vtt" srclang="fr" label="Français" default>
+			<track default kind="subtitles" src="rwby-volume-5-chapter-1.vtt" srclang="fr" label="Français" default>
 		</video>
 
 		<hr>
 
-		<p>video using .ass subtitles (need player plugin)</p>
+		<h2>video using .ass subtitles (use player plugin)</h2>
 		<video id="video-with-ass" class="video-js vjs-default-skin vjs-big-play-centered" controls width="640" height="360">
 		</video>
-
-		<script src="bower_components/video-js/dist/video.min.js"></script>
-		<script src="bower_components/videojs-resolution-switcher/lib/videojs-resolution-switcher.js"></script>
-		<script src="bower_components/libjass/libjass.min.js"></script>
-		<script src="bower_components/videojs-ass/src/videojs.ass.js"></script>
-		<script src="bower_components/videojs-youtube/dist/Youtube.min.js"></script>
 
 		<script>
 			videojs('#video-with-vtt', {
 				techOrder: ['youtube'],
-				sources: [{ 'type': 'video/youtube', 'src': 'https://www.youtube.com/watch?v=-sGiE10zNQM'}],
+				sources: [{ 'type': 'video/youtube', 'src': 'https://www.youtube.com/watch?v=thTOWKiNnx4'}],
 				plugins: {
 					videoJsResolutionSwitcher: {
 						default: 'high',
 						dynamicLabel: true
 					}
 				}
-			}).one('playing', function () {
-				this.tech_.ytPlayer.unloadModule('captions');
-				this.tech_.ytPlayer.unloadModule('cc');
-			});
-
+			}).one('playing', disableYoutubeSubtitles);
 
 			videojs('#video-with-ass', {
 				techOrder: ['youtube'],
-				sources: [{ 'type': 'video/youtube', 'src': 'https://www.youtube.com/watch?v=-sGiE10zNQM'}],
+				sources: [{ 'type': 'video/youtube', 'src': 'https://www.youtube.com/watch?v=thTOWKiNnx4'}],
 				plugins: {
 					ass: {
-						src: ['rwby-volume-1-chapter-01.ass']
+						subtitles: [
+							{
+								src: 'rwby-volume-5-chapter-1.ass',
+								label: 'Français',
+								srclang: 'fr',
+								enabled: true
+							}
+						]
 					},
 					videoJsResolutionSwitcher: {
 						default: 'high',
 						dynamicLabel: true
 					}
 				}
-			}).one('playing', function () {
+			}).one('playing', disableYoutubeSubtitles);
+
+			function disableYoutubeSubtitles() {
 				this.tech_.ytPlayer.unloadModule('captions');
 				this.tech_.ytPlayer.unloadModule('cc');
-			});
+			}
 		</script>
 	</body>
 </html>
